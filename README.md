@@ -1,4 +1,4 @@
-# Write Your Name Here
+# KIM JUNSEO
 
 ## This is your repository for 31st SOPT Android Development Seminar and Assignment
 
