@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val id = intent.getStringExtra("id")
         val mbti = intent.getStringExtra("mbti")
 
-        binding.nameTv.text = binding.nameTv.text.toString() + id
-        binding.mbtiTv.text = binding.mbtiTv.text.toString() + mbti
+        binding.nameTv.text = binding.nameTv.text.toString() + SignUpActivity.UserInformation.id
+        binding.mbtiTv.text = binding.mbtiTv.text.toString() + SignUpActivity.UserInformation.mbti
     }
 }

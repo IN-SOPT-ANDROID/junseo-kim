@@ -28,9 +28,9 @@ class LoginActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    id = result.data?.getStringExtra("id") ?: ""
-                    pw = result.data?.getStringExtra("pw") ?: ""
-                    mbti = result.data?.getStringExtra("mbti") ?: ""
+                    id = SignUpActivity.UserInformation.id
+                    pw = SignUpActivity.UserInformation.pw
+                    mbti = SignUpActivity.UserInformation.mbti
                 }
             }
 

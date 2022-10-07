@@ -24,12 +24,20 @@ class SignUpActivity : AppCompatActivity() {
             }
             else{
                 val intent = Intent(this, LoginActivity::class.java)
-                intent.putExtra("id", binding.idEt.text.toString())
-                intent.putExtra("pw", binding.pwET.text.toString())
-                intent.putExtra("mbti", binding.mbtiEt.text.toString())
+                UserInformation.id = binding.idEt.text.toString()
+                UserInformation.pw = binding.pwET.text.toString()
+                UserInformation.mbti = binding.mbtiEt.text.toString()
+//                intent.putExtra("id", binding.idEt.text.toString())
+//                intent.putExtra("pw", binding.pwET.text.toString())
+//                intent.putExtra("mbti", binding.mbtiEt.text.toString())
                 setResult(RESULT_OK, intent)
                 finish()
             }
         }
+    }
+    companion object UserInformation {
+        lateinit var id : String
+        lateinit var pw : String
+        lateinit var mbti : String
     }
 }
