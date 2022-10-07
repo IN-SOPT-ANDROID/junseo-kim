@@ -24,8 +24,9 @@ class SignUpActivity : AppCompatActivity() {
             }
             else{
                 val intent = Intent(this, LoginActivity::class.java)
-                intent.putExtra("id", binding.idEt.text)
-                intent.putExtra("pw", binding.pwET.text)
+                intent.putExtra("id", binding.idEt.text.toString())
+                intent.putExtra("pw", binding.pwET.text.toString())
+                intent.putExtra("mbti", binding.mbtiEt.text.toString())
                 setResult(RESULT_OK, intent)
                 finish()
             }

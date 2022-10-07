@@ -16,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     var id: String? = null
     var pw : String? = null
+    var mbti : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     id = result.data?.getStringExtra("id") ?: ""
                     pw = result.data?.getStringExtra("pw") ?: ""
+                    mbti = result.data?.getStringExtra("mbti") ?: ""
                 }
             }
 
@@ -46,12 +48,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginSuccess() {
-        Snackbar.make(
-            binding.root, "로그인 성공", Snackbar.LENGTH_SHORT).show()
+        Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("mbti", mbti)
+        intent.putExtra("id", id)
         startActivity(intent)
         finish()
-
     }
 
     fun loginFail() {
