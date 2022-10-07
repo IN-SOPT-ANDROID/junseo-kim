@@ -55,7 +55,8 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pwTV"/>
+        app:layout_constraintTop_toBottomOf="@id/pwTV"
+        android:inputType="textPassword"/>
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
