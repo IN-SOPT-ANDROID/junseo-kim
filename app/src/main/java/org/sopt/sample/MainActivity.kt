@@ -16,10 +16,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun putInfo(){
-        val id = intent.getStringExtra("id")
-        val mbti = intent.getStringExtra("mbti")
-
-        binding.nameTv.text = binding.nameTv.text.toString() + SignUpActivity.UserInformation.id
-        binding.mbtiTv.text = binding.mbtiTv.text.toString() + SignUpActivity.UserInformation.mbti
+        binding.nameTv.text = binding.nameTv.text.toString() + intent.getStringExtra(SignUpActivity.id)
+        binding.mbtiTv.text = binding.mbtiTv.text.toString() + intent.getStringExtra(SignUpActivity.mbti)
     }
 }

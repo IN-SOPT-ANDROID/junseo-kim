@@ -28,14 +28,13 @@ class LoginActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    id = SignUpActivity.UserInformation.id
-                    pw = SignUpActivity.UserInformation.pw
-                    mbti = SignUpActivity.UserInformation.mbti
+                    id = result.data?.getStringExtra(SignUpActivity.id) ?: ""
+                    pw = result.data?.getStringExtra(SignUpActivity.pw) ?: ""
+                    mbti = result.data?.getStringExtra(SignUpActivity.mbti) ?: ""
                 }
             }
 
         binding.loginBtn.setOnClickListener {
-
             if (binding.idEt.text.toString() == id || binding.pwET.text.toString() == pw) {
                 loginSuccess()
             } else {
@@ -50,8 +49,8 @@ class LoginActivity : AppCompatActivity() {
     fun loginSuccess() {
         Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("mbti", mbti)
-        intent.putExtra("id", id)
+        intent.putExtra(SignUpActivity.mbti, mbti)
+        intent.putExtra(SignUpActivity.id, id)
         startActivity(intent)
         finish()
     }
