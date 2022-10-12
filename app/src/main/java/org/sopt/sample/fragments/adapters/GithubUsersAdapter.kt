@@ -4,12 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.sample.fragments.models.ItemUserModel
+import org.sopt.sample.fragments.models.UserRepo
 import org.sopt.sample.databinding.ItemUsersBinding
 
 class GithubUsersAdapter(context: Context):RecyclerView.Adapter<GithubUsersAdapter.GithubUsersViewHolder>(){
     private val inflater by lazy { LayoutInflater.from(context) }
-    private var userList: List<ItemUserModel> = emptyList()
+    private var userList: List<UserRepo> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GithubUsersViewHolder {
         val binding = ItemUsersBinding.inflate(inflater, parent, false)
@@ -24,13 +24,13 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<GithubUsersAdapt
         return userList.size
     }
 
-    fun setUserList(userList: List<ItemUserModel>){
+    fun setUserList(userList: List<UserRepo>){
         this.userList = userList.toList() // toList 해주는 이유 > 얕은 복사를 위해
         notifyDataSetChanged()
     }
 
     inner class GithubUsersViewHolder(private val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data : ItemUserModel){
+        fun onBind(data : UserRepo){
             binding.ivGithubLogo.setImageResource(data.image)
             binding.tvRepoName.text = data.repositoryName
             binding.tvUserName.text = data.name

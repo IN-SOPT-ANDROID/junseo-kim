@@ -1,6 +1,6 @@
 package org.sopt.sample.fragments.models
 
-data class ItemUserModel (
+data class UserRepo (
     val image: Int,
     val name: String,
     val repositoryName: String
