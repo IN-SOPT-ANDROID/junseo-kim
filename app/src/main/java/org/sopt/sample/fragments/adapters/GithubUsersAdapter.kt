@@ -53,14 +53,14 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged()
     }
 
-    inner class GithubUsersViewHolder(private val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
+    class GithubUsersViewHolder(private val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data : UserRepo){
             binding.ivGithubLogo.setImageResource(data.image!!)
             binding.tvRepoName.text = data.repositoryName
             binding.tvUserName.text = data.name
         }
     }
-    inner class DescriptionViewHolder(private val binding: ItemDescriptionBinding) : RecyclerView.ViewHolder(binding.root) {
+    class DescriptionViewHolder(private val binding: ItemDescriptionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data : UserRepo){
             binding.tvRepoDescription.text = data.name
         }
