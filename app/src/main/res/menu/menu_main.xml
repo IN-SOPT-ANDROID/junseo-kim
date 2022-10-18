@@ -4,16 +4,12 @@
         android:id="@+id/item_home"
         android:title="Home"
         android:icon="@drawable/ic_home"/>
-
     <item
         android:id="@+id/item_search"
         android:title="Search"
         android:icon="@drawable/ic_search"/>
-
     <item
         android:id="@+id/item_gallery"
         android:title="Gallery"
         android:icon="@drawable/ic_photo"/>
-
-
 </menu>

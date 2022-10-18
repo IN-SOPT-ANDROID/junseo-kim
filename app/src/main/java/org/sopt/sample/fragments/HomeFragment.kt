@@ -17,6 +17,7 @@ class HomeFragment : Fragment(){
     private val binding: FragmentHomeBinding // 위의 가짜 바인딩에서 null을 뺀 정보를 얻어오는 용
         get() = requireNotNull(_binding) { "홈 프래그먼트에서 _binding이 널임" }
     private val viewModel by viewModels<HomeViewModel>()
+    private val adapter by lazy { GithubUsersAdapter(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +30,10 @@ class HomeFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = GithubUsersAdapter(requireContext())
+        initAdapter()
+    }
+
+    fun initAdapter(){
         binding.rvGithubUsers.adapter = adapter
         adapter.setUserList(viewModel.exampleList)
     }

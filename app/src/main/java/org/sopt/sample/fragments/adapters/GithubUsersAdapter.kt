@@ -20,7 +20,7 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<RecyclerView.Vie
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
-            type1 -> {
+            header   -> {
                 val binding = ItemDescriptionBinding.inflate(inflater, parent, false)
                 DescriptionViewHolder(binding)
             }
@@ -33,7 +33,7 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<RecyclerView.Vie
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(userList[position].dataType){
-            type1 -> {
+            header -> {
                 holder as DescriptionViewHolder
                 holder.onBind(userList[position])
             }
@@ -66,7 +66,7 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<RecyclerView.Vie
         }
     }
     companion object{
-        const val type1 = 1
-        const val type2 = 2
+        const val header = 1
+        const val content = 2
     }
 }

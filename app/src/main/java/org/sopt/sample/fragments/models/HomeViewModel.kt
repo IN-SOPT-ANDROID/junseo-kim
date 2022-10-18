@@ -11,65 +11,65 @@ class HomeViewModel : ViewModel(){
             image = null,
             name = "junseo-repo",
             repositoryName = null,
-            dataType = Companion.type1
+            dataType = Companion.header
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "Youth-Pick",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "junstagram",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "AndroidLab",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "print",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "IN-SOPT-ANDROID / junseo-kim",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "Youth-Pick",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "junstagram",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "AndroidLab",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "print",
-            dataType = Companion.type2
+            dataType = Companion.content
         ),
         UserRepo(
             image = R.drawable.github,
             name = "Kim Junseo",
             repositoryName = "IN-SOPT-ANDROID / junseo-kim",
-            dataType = Companion.type2
+            dataType = Companion.content
         )
     )
 }

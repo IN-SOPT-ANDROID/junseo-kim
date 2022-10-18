@@ -1,5 +1,6 @@
 package org.sopt.sample
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.sample.fragments.GalleryFragment
 import org.sopt.sample.fragments.SearchFragment
 import org.sopt.sample.databinding.ActivityMainBinding
+import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         firstFragment()
         binding.bnvMain.setOnItemSelectedListener { item ->
             changeFragment(item)
