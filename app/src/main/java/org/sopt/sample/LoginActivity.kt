@@ -34,14 +34,14 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-        binding.loginBtn.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             if (binding.idEt.text.toString() == id || binding.pwET.text.toString() == pw) {
                 loginSuccess()
             } else {
                 loginFail()
             }
         }
-        binding.signupBtn.setOnClickListener {
+        binding.btnSignUp.setOnClickListener {
             clickSignUp()
         }
     }
