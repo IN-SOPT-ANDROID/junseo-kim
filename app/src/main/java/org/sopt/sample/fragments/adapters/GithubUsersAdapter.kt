@@ -31,6 +31,20 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
+    class DescriptionViewHolder(private val binding: ItemDescriptionBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data : UserRepo){
+            binding.tvRepoDescription.text = data.name
+        }
+    }
+
+    class GithubUsersViewHolder(private val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data : UserRepo){
+            binding.ivGithubLogo.setImageResource(data.image!!)
+            binding.tvRepoName.text = data.repositoryName
+            binding.tvUserName.text = data.name
+        }
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(userList[position].dataType){
             header -> {
@@ -50,21 +64,9 @@ class GithubUsersAdapter(context: Context):RecyclerView.Adapter<RecyclerView.Vie
 
     fun setUserList(userList: List<UserRepo>){
         this.userList = userList.toList() // toList 해주는 이유 > 얕은 복사를 위해
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, this.userList.size)
     }
 
-    class GithubUsersViewHolder(private val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data : UserRepo){
-            binding.ivGithubLogo.setImageResource(data.image!!)
-            binding.tvRepoName.text = data.repositoryName
-            binding.tvUserName.text = data.name
-        }
-    }
-    class DescriptionViewHolder(private val binding: ItemDescriptionBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data : UserRepo){
-            binding.tvRepoDescription.text = data.name
-        }
-    }
     companion object{
         const val header = 1
         const val content = 2
