@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import org.sopt.sample.SignUpActivity.UserInformation.name
 import org.sopt.sample.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -16,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     var id: String? = null
     var pw : String? = null
-    var mbti : String? = null
+    var name : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     id = result.data?.getStringExtra(SignUpActivity.id) ?: ""
                     pw = result.data?.getStringExtra(SignUpActivity.pw) ?: ""
-                    mbti = result.data?.getStringExtra(SignUpActivity.mbti) ?: ""
+                    name = result.data?.getStringExtra(SignUpActivity.name) ?: ""
                 }
             }
 
@@ -49,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
     fun loginSuccess() {
         Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(SignUpActivity.mbti, mbti)
+        intent.putExtra(SignUpActivity.name, name)
         intent.putExtra(SignUpActivity.id, id)
         startActivity(intent)
         finish()
