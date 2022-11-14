@@ -15,6 +15,7 @@ import org.sopt.sample.databinding.ActivitySignUpBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.sign
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -74,32 +75,35 @@ class SignUpActivity : AppCompatActivity() {
                             response: Response<ResponseSignUpDTO>
                         ) {
                             if (response.isSuccessful){
-                                val intent = Intent(this@SignUpActivity.parent, LoginActivity::class.java)
-                                startActivity(intent)
-                                Toast.makeText(this@SignUpActivity,
-                                    "회원가입 성공, 로그인 하세요!", Toast.LENGTH_SHORT).show()
-                                if(isFinishing)
-                                    finish()
+                                signUpSuccess()
                             }else{
-                                Toast.makeText(this@SignUpActivity,
-                                    "회원가입 실패", Toast.LENGTH_SHORT).show()
+                                signUpBadResponse()
                             }
                         }
 
                         override fun onFailure(call: Call<ResponseSignUpDTO>, t: Throwable) {
-                            Toast.makeText(this@SignUpActivity,
-                                "현재 서버와 통신 불가", Toast.LENGTH_SHORT).show()
+                            signUpNoResponse()
                         }
-
                     })
             }
         }
     }
 
+    private fun signUpNoResponse() {
+        Toast.makeText(this@SignUpActivity,
+            "네트워크 연결 미약", Toast.LENGTH_SHORT).show()
+    }
 
-    companion object UserInformation {
-        const val id = "id"
-        const val pw = "pw"
-        const val name = "name"
+    private fun signUpBadResponse() {
+        Toast.makeText(this@SignUpActivity,
+            "회원가입 실패, 40X 응답값", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun signUpSuccess() {
+        val intent = Intent(this@SignUpActivity.parent, LoginActivity::class.java)
+        startActivity(intent)
+        Toast.makeText(this@SignUpActivity,
+            "회원가입 성공, 로그인 하세요!", Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
