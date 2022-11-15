@@ -1,7 +1,9 @@
 package org.sopt.sample.data.remote
 
+import android.net.Uri
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.net.URI
 
 @Serializable
 data class ResponseGetUsersDTO(

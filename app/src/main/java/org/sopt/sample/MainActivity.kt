@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun scrollRecyclerView(item : MenuItem){
         when(item.itemId) {
             R.id.item_home -> {
-                val recyclerView = findViewById<RecyclerView>(R.id.rv_github_users)
+                val recyclerView = findViewById<RecyclerView>(R.id.rv_users)
                 recyclerView.smoothScrollToPosition(0)
             }
         }
