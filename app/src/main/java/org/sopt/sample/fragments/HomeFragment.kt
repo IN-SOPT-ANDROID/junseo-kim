@@ -1,21 +1,19 @@
 package org.sopt.sample.fragments
 
 import android.os.Bundle
-import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
+import org.sopt.sample.MainActivity
 import org.sopt.sample.data.remote.GetUserService
 import org.sopt.sample.data.remote.ResponseGetUsersDTO
 import org.sopt.sample.data.remote.ServicePool
-import org.sopt.sample.fragments.adapters.FollowersAdapter
 import org.sopt.sample.databinding.FragmentHomeBinding
+import org.sopt.sample.fragments.adapters.FollowersAdapter
 import org.sopt.sample.fragments.models.HomeViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,7 +21,7 @@ import retrofit2.Response
 
 class HomeFragment : Fragment(){
     private var _binding: FragmentHomeBinding? = null // 정보 얻어오는 용, Nullable
-    private val binding: FragmentHomeBinding // 위의 가짜 바인딩에서 null을 뺀 정보를 얻어오는 용
+    val binding: FragmentHomeBinding // 위의 가짜 바인딩에서 null을 뺀 정보를 얻어오는 용
         get() = requireNotNull(_binding) { "홈 프래그먼트에서 _binding이 널임" }
     private val viewModel by viewModels<HomeViewModel>()
     private val adapter by lazy { FollowersAdapter(requireContext()) }
@@ -42,16 +40,19 @@ class HomeFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        (activity as MainActivity).binding.bnvMain.setOnItemReselectedListener {
+            binding.rvUsers.smoothScrollToPosition(0)
+        }
     }
 
     fun initAdapter(){
         getUserService = ServicePool.getUserService
-        getUserService.getUsers().enqueue(object : Callback<ResponseGetUsersDTO>{
+        getUserService.getUsers(2).enqueue(object : Callback<ResponseGetUsersDTO> {
             override fun onResponse(
                 call: Call<ResponseGetUsersDTO>,
                 response: Response<ResponseGetUsersDTO>
             ) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     userList = response.body()?.data
                     viewModel.userList = userList!!
                     binding.rvUsers.layoutManager = GridLayoutManager(context, 3)
