@@ -1,5 +1,6 @@
-package org.sopt.sample.data.remote
+package org.sopt.sample.data.remote.api
 
+import org.sopt.sample.data.remote.model.GetUserDTO
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -9,5 +10,5 @@ interface GetUserService {
     fun getUsers(
         @Query("page")
         page: Int
-    ): Call<ResponseGetUsersDTO>
+    ): Call<GetUserDTO>
 }

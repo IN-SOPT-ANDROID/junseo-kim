@@ -5,9 +5,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
-import org.sopt.sample.fragments.GalleryFragment
-import org.sopt.sample.fragments.HomeFragment
-import org.sopt.sample.fragments.SearchFragment
+import org.sopt.sample.presentation.main.fragment.GalleryFragment
+import org.sopt.sample.presentation.main.fragment.HomeFragment
+import org.sopt.sample.presentation.main.fragment.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding

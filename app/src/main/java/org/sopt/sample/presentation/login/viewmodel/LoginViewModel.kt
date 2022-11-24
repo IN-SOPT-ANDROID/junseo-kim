@@ -2,9 +2,9 @@ package org.sopt.sample.presentation.login.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.sample.data.remote.RequestLoginDTO
-import org.sopt.sample.data.remote.ResponseLoginDTO
-import org.sopt.sample.data.remote.ServicePool
+import org.sopt.sample.data.remote.api.ServicePool
+import org.sopt.sample.data.remote.model.RequestLoginDTO
+import org.sopt.sample.data.remote.model.ResponseLoginDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

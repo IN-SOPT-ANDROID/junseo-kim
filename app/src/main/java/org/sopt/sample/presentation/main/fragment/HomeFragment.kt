@@ -1,4 +1,4 @@
-package org.sopt.sample.fragments
+package org.sopt.sample.presentation.main.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import org.sopt.sample.data.remote.GetUserService
-import org.sopt.sample.data.remote.ResponseGetUsersDTO
-import org.sopt.sample.data.remote.ServicePool
+import org.sopt.sample.data.remote.api.GetUserService
+import org.sopt.sample.data.remote.api.ServicePool
+import org.sopt.sample.data.remote.model.ResponseGetUsersDTO
 import org.sopt.sample.databinding.FragmentHomeBinding
-import org.sopt.sample.fragments.adapters.FollowersAdapter
+import org.sopt.sample.presentation.main.adapter.FollowersAdapter
 import org.sopt.sample.presentation.main.view.MainActivity
 import org.sopt.sample.presentation.main.viewmodel.HomeViewModel
 import retrofit2.Call

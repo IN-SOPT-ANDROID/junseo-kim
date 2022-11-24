@@ -1,10 +1,10 @@
-package org.sopt.sample.data.remote
+package org.sopt.sample.data.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseGetUsersDTO(
+data class ResponseGetUserDTO(
     @SerialName("page")
     val page: Int,
     @SerialName("per_page")
