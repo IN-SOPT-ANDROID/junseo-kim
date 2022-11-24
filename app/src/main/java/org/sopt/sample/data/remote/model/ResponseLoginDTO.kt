@@ -11,20 +11,20 @@ data class ResponseLoginDTO(
     val message: String,
     @SerialName("result")
     val result: User
-){
+) {
     @Serializable
     data class User(
         @SerialName("id")
-        val id : Int,
+        val id: Int,
         @SerialName("name")
-        val name : String,
+        val name: String,
         @SerialName("profileImage")
-        val profileImage : String?,
+        val profileImage: String?,
         @SerialName("bio")
-        val bio : String?,
+        val bio: String?,
         @SerialName("email")
-        val email : String,
+        val email: String,
         @SerialName("password")
-        val password : String
+        val password: String
     )
 }

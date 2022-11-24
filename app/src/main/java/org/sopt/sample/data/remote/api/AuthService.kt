@@ -6,7 +6,8 @@ import retrofit2.http.POST
 
 interface AuthService {
     @POST("api/user/signin")
-    fun login(@Body request : RequestLoginDTO) : Call<ResponseLoginDTO>
+    fun login(@Body request: RequestLoginDTO): Call<ResponseLoginDTO>
+
     @POST("api/user/signup")
-    fun signUp(@Body request : RequestSignUpDTO) : Call<ResponseSignUpDTO>
+    fun signUp(@Body request: RequestSignUpDTO): Call<ResponseSignUpDTO>
 }
