@@ -55,4 +55,8 @@ class MainActivity : AppCompatActivity() {
             else -> return false
         }
     }
+
+    companion object {
+        val tag = "tag"
+    }
 }
