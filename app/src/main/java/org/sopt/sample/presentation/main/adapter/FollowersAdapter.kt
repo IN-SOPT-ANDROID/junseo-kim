@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.sopt.sample.data.remote.model.ResponseGetUsersDTO
+import org.sopt.sample.data.remote.model.ResponseGetUserDTO
 import org.sopt.sample.databinding.ItemUsersBinding
 
 class FollowersAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater by lazy { LayoutInflater.from(context) }
-    private var userList: List<ResponseGetUsersDTO.User> = emptyList()
+    private var userList: List<ResponseGetUserDTO.User> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemUsersBinding.inflate(inflater, parent, false)
@@ -19,7 +19,7 @@ class FollowersAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.Vie
 
     class UsersViewHolder(private val binding: ItemUsersBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ResponseGetUsersDTO.User) {
+        fun onBind(data: ResponseGetUserDTO.User) {
             val name = data.firstName + data.lastName
             binding.tvName.text = name
             binding.tvEmail.text = data.email
@@ -36,7 +36,7 @@ class FollowersAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.Vie
         return userList.size
     }
 
-    fun setUserList(userList: List<ResponseGetUsersDTO.User>) {
+    fun setUserList(userList: List<ResponseGetUserDTO.User>) {
         this.userList = userList.toList()// toList 해주는 이유 > 얕은 복사를 위해
         notifyItemRangeInserted(0, this.userList.size)
     }
