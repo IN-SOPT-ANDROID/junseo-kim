@@ -58,5 +58,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         val tag = "tag"
+        val id = "id"
+        val pw = "pw"
+        val idPattern = """^(?=.*[0-9])(?=.*[a-zA-Z]).{6,10}$"""
+        val pwPattern = """^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[$@$!%*#?&]).{6,12}$"""
     }
 }
