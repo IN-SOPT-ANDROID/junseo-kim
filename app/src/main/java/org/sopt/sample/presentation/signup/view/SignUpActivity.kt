@@ -26,10 +26,10 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun activateBtn() {
-        binding.idEt.addTextChangedListener {
+        binding.etId.addTextChangedListener {
             setTextWatcher()
         }
-        binding.pwET.addTextChangedListener {
+        binding.etPw.addTextChangedListener {
             setTextWatcher()
         }
         binding.etName.addTextChangedListener {
@@ -39,28 +39,28 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun setTextWatcher() {
 
-        if (binding.idEt.text.length *
-            binding.pwET.text.length *
-            binding.etName.text.length != 0
+        if (binding.etId.text.toString().length *
+            binding.etPw.text.toString().length *
+            binding.etName.text.toString().length != 0
         ) {
-            binding.signupBtn.setBackgroundColor(getColor(R.color.blue_700))
-            binding.signupBtn.isClickable = true
+            binding.btnSignUp.setBackgroundColor(getColor(R.color.blue_700))
+            binding.btnSignUp.isClickable = true
         } else {
-            binding.signupBtn.setBackgroundColor(getColor(R.color.grey_200))
-            binding.signupBtn.isClickable = false
+            binding.btnSignUp.setBackgroundColor(getColor(R.color.grey_200))
+            binding.btnSignUp.isClickable = false
         }
     }
 
     private fun signUp() {
-        binding.signupBtn.setOnClickListener {
-            if (binding.idEt.text.length < 6) {
+        binding.btnSignUp.setOnClickListener {
+            if (binding.etId.text!!.length < 6) {
                 Snackbar.make(binding.root, "아이디는 6자 이상으로 만들어주세요.", Snackbar.LENGTH_SHORT).show()
-            } else if (binding.pwET.text.length !in 8..12) {
+            } else if (binding.etPw.text!!.length !in 8..12) {
                 Snackbar.make(binding.root, "비밀번호는 8자 ~ 12자로 만들어주세요.", Snackbar.LENGTH_SHORT).show()
             } else {
                 viewModel.signUp(
-                    binding.idEt.text.toString(),
-                    binding.pwET.toString(), binding.etName.toString()
+                    binding.etId.text.toString(),
+                    binding.etPw.text.toString(), binding.etName.text.toString()
                 )
 
                 viewModel.signUpResult.observe(this) {
