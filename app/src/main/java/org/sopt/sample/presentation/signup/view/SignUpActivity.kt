@@ -5,24 +5,33 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivitySignUpBinding
 import org.sopt.sample.presentation.login.view.LoginActivity
-import org.sopt.sample.presentation.main.view.MainActivity.Companion.idPattern
-import org.sopt.sample.presentation.main.view.MainActivity.Companion.pwPattern
 import org.sopt.sample.presentation.signup.viewModel.SignUpViewModel
-import java.util.regex.Pattern
 
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignUpBinding
     private val viewModel by lazy { SignUpViewModel() }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sign_up)
 
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        viewModel.setTextWatcher(binding)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
+        binding.etId.setText(viewModel.userIdText.value)
+        binding.etPw.setText(viewModel.userPwText.value)
+
+        binding.etName.addTextChangedListener {
+            activateBtn()
+        }
+
+
         observeId()
         observePw()
         activateBtn()
@@ -30,54 +39,48 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun observeId() {
-        viewModel.userPw.observe(this) {
-            val pwPattern = Pattern.compile(pwPattern)
-            val matcher = pwPattern.matcher(it)
-
-            if (matcher.matches() || it == "") {
-                binding.layoutEtPw.boxStrokeColor = getColor(R.color.blue_500)
-            } else {
-                binding.layoutEtPw.boxStrokeColor = getColor(R.color.red_500)
-            }
-            setTextWatcher()
+        viewModel.isUserIdSuit.observe(this) {
+            if (it == true)
+                binding.layoutEtId.boxStrokeColor = getColor(R.color.blue_500)
+            else
+                binding.layoutEtId.boxStrokeColor = getColor(R.color.red_500)
+            activateBtn()
         }
     }
 
     private fun observePw() {
-        viewModel.userId.observe(this) {
-            val idPattern = Pattern.compile(idPattern)
-            val matcher = idPattern.matcher(it)
-
-            if (matcher.matches() || it == "") {
-                binding.layoutEtId.boxStrokeColor = getColor(R.color.blue_500)
-            } else {
-                binding.layoutEtId.boxStrokeColor = getColor(R.color.red_500)
-            }
-            setTextWatcher()
+        viewModel.isUserPwSuit.observe(this) {
+            if (it == true)
+                binding.layoutEtPw.boxStrokeColor = getColor(R.color.blue_500)
+            else
+                binding.layoutEtPw.boxStrokeColor = getColor(R.color.red_500)
+            activateBtn()
         }
     }
 
-    private fun activateBtn() {
-        binding.etName.addTextChangedListener {
-            setTextWatcher()
-        }
-    }
-
-    private fun setTextWatcher() {
-        val idPattern = Pattern.compile(idPattern)
-        val idMatcher = idPattern.matcher(binding.etId.text.toString())
-
-        val pwPattern = Pattern.compile(pwPattern)
-        val pwMatcher = pwPattern.matcher(binding.etPw.text.toString())
-
-        if (idMatcher.matches() && pwMatcher.matches()
+    private fun checkAllEditText() {
+        if (viewModel.isUserIdSuit.value == true && viewModel.isUserPwSuit.value == true
             && binding.etName.text.toString().isNotEmpty()
+            && binding.etId.text.toString().isNotEmpty()
+            && binding.etPw.text.toString().isNotEmpty()
         ) {
             binding.btnSignUp.setBackgroundColor(getColor(R.color.blue_700))
             binding.btnSignUp.isClickable = true
         } else {
             binding.btnSignUp.setBackgroundColor(getColor(R.color.grey_200))
             binding.btnSignUp.isClickable = false
+        }
+    }
+
+    private fun activateBtn() {
+        viewModel.userIdText.observe(this) {
+            checkAllEditText()
+        }
+        viewModel.userPwText.observe(this) {
+            checkAllEditText()
+        }
+        binding.etName.addTextChangedListener {
+            checkAllEditText()
         }
     }
 
