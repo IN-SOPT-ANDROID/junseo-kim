@@ -1,18 +1,20 @@
 package org.sopt.sample.presentation.signup.viewModel
 
 import android.util.Log
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.sopt.sample.data.remote.api.ServicePool
 import org.sopt.sample.data.remote.model.RequestSignUpDTO
 import org.sopt.sample.data.remote.model.ResponseSignUpDTO
-import org.sopt.sample.databinding.ActivitySignUpBinding
+import org.sopt.sample.presentation.main.view.MainActivity.Companion.idPattern
+import org.sopt.sample.presentation.main.view.MainActivity.Companion.pwPattern
 import org.sopt.sample.presentation.main.view.MainActivity.Companion.tag
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.regex.Pattern
 
 class SignUpViewModel() : ViewModel() {
     private val _signUpResult: MutableLiveData<ResponseSignUpDTO> = MutableLiveData()
@@ -22,19 +24,16 @@ class SignUpViewModel() : ViewModel() {
     val errorMessage: LiveData<Int>
         get() = _errorMessage
 
-    private val _userId: MutableLiveData<String> = MutableLiveData()
-    val userId: LiveData<String>
-        get() = _userId
-    private val _userPw: MutableLiveData<String> = MutableLiveData()
-    val userPw: LiveData<String>
-        get() = _userPw
+    val userIdText: MutableLiveData<String> = MutableLiveData("")
+    val isUserIdSuit: LiveData<Boolean> = Transformations.map(userIdText) { checkId(it) }
 
+    val userPwText: MutableLiveData<String> = MutableLiveData("")
+    val isUserPwSuit: LiveData<Boolean> = Transformations.map(userPwText) { checkPw(it) }
 
-    private val loginService = ServicePool.authService
-
+    private val authService = ServicePool.authService
 
     fun signUp(id: String, pw: String, name: String) {
-        loginService.signUp(
+        authService.signUp(
             RequestSignUpDTO(
                 id, pw, name
             )
@@ -56,12 +55,21 @@ class SignUpViewModel() : ViewModel() {
         })
     }
 
-    fun setTextWatcher(binding: ActivitySignUpBinding) {
-        binding.etId.addTextChangedListener {
-            _userId.value = it.toString()
+    fun checkId(idText: String): Boolean {
+        if (idText == "") {
+            return true
         }
-        binding.etPw.addTextChangedListener {
-            _userPw.value = it.toString()
+        val pattern = Pattern.compile(idPattern)
+        val matcher = pattern.matcher(idText)
+        return matcher.matches()
+    }
+
+    fun checkPw(pwText: String): Boolean {
+        if (pwText == "") {
+            return true
         }
+        val pattern = Pattern.compile(pwPattern)
+        val matcher = pattern.matcher(pwText)
+        return matcher.matches()
     }
 }
