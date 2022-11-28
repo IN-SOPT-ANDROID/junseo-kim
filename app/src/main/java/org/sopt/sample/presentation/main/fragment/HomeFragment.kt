@@ -20,7 +20,6 @@ class HomeFragment : Fragment() {
         get() = requireNotNull(_binding) { "홈 프래그먼트에서 _binding이 널임" }
     private val viewModel by viewModels<HomeViewModel>()
     private val adapter by lazy { FollowersAdapter(requireContext()) }
-    private val lifecycleOwner by lazy { viewLifecycleOwner }
     private var userList: List<ResponseGetUserDTO.User>? = listOf()
 
     override fun onCreateView(
@@ -42,13 +41,13 @@ class HomeFragment : Fragment() {
 
     fun initAdapter() {
         viewModel.getUser()
-        viewModel.userList.observe(lifecycleOwner) {
+        viewModel.userList.observe(viewLifecycleOwner) {
             userList = it.data
             adapter.setUserList(userList!!)
             binding.rvUsers.adapter = adapter
             binding.rvUsers.layoutManager = GridLayoutManager(requireContext(), 3)
         }
-        viewModel.errorMessage.observe(lifecycleOwner) {
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
             showErrorToast(it)
         }
     }
