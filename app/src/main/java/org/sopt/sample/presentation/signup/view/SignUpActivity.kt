@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivitySignUpBinding
@@ -24,18 +23,14 @@ class SignUpActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
         binding.vm = viewModel
         binding.lifecycleOwner = this
-        binding.etId.setText(viewModel.userIdText.value)
-        binding.etPw.setText(viewModel.userPwText.value)
-
-        binding.etName.addTextChangedListener {
-            activateBtn()
-        }
-
 
         observeId()
         observePw()
-        activateBtn()
-        signUp()
+        observeName()
+
+        binding.btnSignUp.setOnClickListener {
+            signUp()
+        }
     }
 
     private fun observeId() {
@@ -44,7 +39,7 @@ class SignUpActivity : AppCompatActivity() {
                 binding.layoutEtId.boxStrokeColor = getColor(R.color.blue_500)
             else
                 binding.layoutEtId.boxStrokeColor = getColor(R.color.red_500)
-            activateBtn()
+            setBtnColor()
         }
     }
 
@@ -54,15 +49,25 @@ class SignUpActivity : AppCompatActivity() {
                 binding.layoutEtPw.boxStrokeColor = getColor(R.color.blue_500)
             else
                 binding.layoutEtPw.boxStrokeColor = getColor(R.color.red_500)
-            activateBtn()
+            setBtnColor()
         }
     }
 
-    private fun checkAllEditText() {
+    private fun observeName() {
+        viewModel.isUserNameSuit.observe(this) {
+            if (it == true)
+                binding.layoutEtName.boxStrokeColor = getColor(R.color.blue_500)
+            else
+                binding.layoutEtName.boxStrokeColor = getColor(R.color.red_500)
+            setBtnColor()
+        }
+    }
+
+    private fun setBtnColor() {
         if (viewModel.isUserIdSuit.value == true && viewModel.isUserPwSuit.value == true
-            && binding.etName.text.toString().isNotEmpty()
-            && binding.etId.text.toString().isNotEmpty()
-            && binding.etPw.text.toString().isNotEmpty()
+            && viewModel.isUserNameSuit.value == true
+            && viewModel.userIdText.toString().isNotEmpty()
+            && viewModel.userPwText.toString().isNotEmpty()
         ) {
             binding.btnSignUp.setBackgroundColor(getColor(R.color.blue_700))
             binding.btnSignUp.isClickable = true
@@ -72,34 +77,19 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun activateBtn() {
-        viewModel.userIdText.observe(this) {
-            checkAllEditText()
-        }
-        viewModel.userPwText.observe(this) {
-            checkAllEditText()
-        }
-        binding.etName.addTextChangedListener {
-            checkAllEditText()
-        }
-    }
-
     private fun signUp() {
-        binding.btnSignUp.setOnClickListener {
-            viewModel.signUp(
-                binding.etId.text.toString(),
-                binding.etPw.text.toString(), binding.etName.text.toString()
-            )
+        viewModel.signUp(
+            binding.etId.text.toString(),
+            binding.etPw.text.toString(), binding.etName.text.toString()
+        )
 
-            viewModel.signUpResult.observe(this) {
-                signUpSuccess()
-            }
-
-            viewModel.errorMessage.observe(this) {
-                signUpFail(it)
-            }
+        viewModel.signUpResult.observe(this) {
+            signUpSuccess()
         }
 
+        viewModel.errorMessage.observe(this) {
+            signUpFail(it)
+        }
     }
 
     private fun signUpSuccess() {

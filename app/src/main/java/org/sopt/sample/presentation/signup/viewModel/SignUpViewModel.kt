@@ -30,6 +30,9 @@ class SignUpViewModel() : ViewModel() {
     val userPwText: MutableLiveData<String> = MutableLiveData("")
     val isUserPwSuit: LiveData<Boolean> = Transformations.map(userPwText) { checkPw(it) }
 
+    val userNameText: MutableLiveData<String> = MutableLiveData("")
+    val isUserNameSuit: LiveData<Boolean> = Transformations.map(userNameText) { checkName(it) }
+
     private val authService = ServicePool.authService
 
     fun signUp(id: String, pw: String, name: String) {
@@ -55,7 +58,7 @@ class SignUpViewModel() : ViewModel() {
         })
     }
 
-    fun checkId(idText: String): Boolean {
+    private fun checkId(idText: String): Boolean {
         if (idText == "") {
             return true
         }
@@ -64,7 +67,7 @@ class SignUpViewModel() : ViewModel() {
         return matcher.matches()
     }
 
-    fun checkPw(pwText: String): Boolean {
+    private fun checkPw(pwText: String): Boolean {
         if (pwText == "") {
             return true
         }
@@ -72,4 +75,10 @@ class SignUpViewModel() : ViewModel() {
         val matcher = pattern.matcher(pwText)
         return matcher.matches()
     }
+
+    private fun checkName(nameText: String): Boolean {
+        return nameText != ""
+    }
+
+
 }
