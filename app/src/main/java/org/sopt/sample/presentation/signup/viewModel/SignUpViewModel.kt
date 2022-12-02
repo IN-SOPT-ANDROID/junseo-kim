@@ -80,5 +80,11 @@ class SignUpViewModel() : ViewModel() {
         return nameText != ""
     }
 
+    fun checkSignUpFormat(): Boolean {
+        return (isUserIdSuit.value == true && isUserPwSuit.value == true
+                && isUserNameSuit.value == true
+                && userIdText.toString().isNotEmpty()
+                && userPwText.toString().isNotEmpty())
+    }
 
 }
