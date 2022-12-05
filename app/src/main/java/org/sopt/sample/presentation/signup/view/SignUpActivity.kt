@@ -35,30 +35,23 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun observeId() {
         viewModel.isUserIdSuit.observe(this) {
-            if (it == true)
-                binding.layoutEtId.boxStrokeColor = getColor(R.color.blue_500)
-            else
-                binding.layoutEtId.boxStrokeColor = getColor(R.color.red_500)
+            binding.layoutEtId.error = if (it || (viewModel.userIdText.value!! == "")) null
+            else "ID 형식이 올바르지 않습니다."
             setBtnColor()
         }
     }
 
     private fun observePw() {
         viewModel.isUserPwSuit.observe(this) {
-            if (it == true)
-                binding.layoutEtPw.boxStrokeColor = getColor(R.color.blue_500)
-            else
-                binding.layoutEtPw.boxStrokeColor = getColor(R.color.red_500)
+            binding.layoutEtPw.error = if (it || (viewModel.userPwText.value!! == "")) null
+            else "비밀번호 형식이 올바르지 않습니다."
             setBtnColor()
         }
     }
 
     private fun observeName() {
         viewModel.isUserNameSuit.observe(this) {
-            if (it == true)
-                binding.layoutEtName.boxStrokeColor = getColor(R.color.blue_500)
-            else
-                binding.layoutEtName.boxStrokeColor = getColor(R.color.red_500)
+            binding.layoutEtName.error = if (it) null else "이름 형식이 올바르지 않습니다."
             setBtnColor()
         }
     }
