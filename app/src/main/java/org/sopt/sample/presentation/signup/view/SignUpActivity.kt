@@ -59,10 +59,10 @@ class SignUpActivity : AppCompatActivity() {
     private fun setBtnColor() {
         if (viewModel.checkSignUpFormat()) {
             binding.btnSignUp.setBackgroundColor(getColor(R.color.blue_700))
-            binding.btnSignUp.isClickable = true
+            viewModel.btnEnabled.value = true
         } else {
             binding.btnSignUp.setBackgroundColor(getColor(R.color.grey_200))
-            binding.btnSignUp.isClickable = false
+            viewModel.btnEnabled.value = false
         }
     }
 

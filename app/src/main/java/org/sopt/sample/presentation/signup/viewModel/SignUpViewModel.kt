@@ -33,6 +33,8 @@ class SignUpViewModel() : ViewModel() {
     val userNameText: MutableLiveData<String> = MutableLiveData("")
     val isUserNameSuit: LiveData<Boolean> = Transformations.map(userNameText) { checkName(it) }
 
+    val btnEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+
     private val authService = ServicePool.authService
 
     fun signUp(id: String, pw: String, name: String) {
