@@ -64,18 +64,14 @@ class SignUpViewModel() : ViewModel() {
         if (idText == "") {
             return true
         }
-        val pattern = Pattern.compile(idPattern)
-        val matcher = pattern.matcher(idText)
-        return matcher.matches()
+        return Pattern.compile(idPattern).matcher(idText).matches()
     }
 
     private fun checkPw(pwText: String): Boolean {
         if (pwText == "") {
             return true
         }
-        val pattern = Pattern.compile(pwPattern)
-        val matcher = pattern.matcher(pwText)
-        return matcher.matches()
+        return Pattern.compile(pwPattern).matcher(pwText).matches()
     }
 
     private fun checkName(nameText: String): Boolean {
