@@ -1,109 +1,84 @@
-package org.sopt.sample.presentation.signup
+package org.sopt.sample.presentation.signup.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
-import com.google.android.material.snackbar.Snackbar
+import androidx.databinding.DataBindingUtil
 import org.sopt.sample.R
-import org.sopt.sample.data.remote.AuthService
-import org.sopt.sample.data.remote.RequestSignUpDTO
-import org.sopt.sample.data.remote.ResponseSignUpDTO
-import org.sopt.sample.data.remote.ServicePool
 import org.sopt.sample.databinding.ActivitySignUpBinding
 import org.sopt.sample.presentation.login.view.LoginActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.sopt.sample.presentation.signup.viewModel.SignUpViewModel
 
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignUpBinding
-    lateinit var loginService: AuthService
+    private val viewModel by lazy { SignUpViewModel() }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sign_up)
 
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
 
-        activateBtn()
-        signUp()
+        observeId()
+        observePw()
+        observeName()
+
+        binding.btnSignUp.setOnClickListener {
+            signUp()
+        }
     }
 
-    private fun setTextWatcher() {
+    private fun observeId() {
+        viewModel.isUserIdSuit.observe(this) {
+            binding.layoutEtId.error = if (it || (viewModel.userIdText.value!! == "")) null
+            else "ID 형식이 올바르지 않습니다."
+            setBtnColor()
+        }
+    }
 
-        if (binding.idEt.text.length *
-            binding.pwET.text.length *
-            binding.etName.text.length != 0
-        ) {
-            binding.signupBtn.setBackgroundColor(getColor(R.color.blue_700))
-            binding.signupBtn.isClickable = true
+    private fun observePw() {
+        viewModel.isUserPwSuit.observe(this) {
+            binding.layoutEtPw.error = if (it || (viewModel.userPwText.value!! == "")) null
+            else "비밀번호 형식이 올바르지 않습니다."
+            setBtnColor()
+        }
+    }
+
+    private fun observeName() {
+        viewModel.isUserNameSuit.observe(this) {
+            binding.layoutEtName.error = if (it) null else "이름 형식이 올바르지 않습니다."
+            setBtnColor()
+        }
+    }
+
+    private fun setBtnColor() {
+        if (viewModel.checkSignUpFormat()) {
+            binding.btnSignUp.setBackgroundColor(getColor(R.color.blue_700))
+            viewModel.btnEnabled.value = true
         } else {
-            binding.signupBtn.setBackgroundColor(getColor(R.color.grey_200))
-            binding.signupBtn.isClickable = false
-        }
-    }
-
-    private fun activateBtn() {
-        binding.idEt.addTextChangedListener {
-            setTextWatcher()
-        }
-        binding.pwET.addTextChangedListener {
-            setTextWatcher()
-        }
-        binding.etName.addTextChangedListener {
-            setTextWatcher()
+            binding.btnSignUp.setBackgroundColor(getColor(R.color.grey_200))
+            viewModel.btnEnabled.value = false
         }
     }
 
     private fun signUp() {
-        binding.signupBtn.setOnClickListener {
-            if (binding.idEt.text.length < 6) {
-                Snackbar.make(binding.root, "아이디는 6자 이상으로 만들어주세요.", Snackbar.LENGTH_SHORT).show()
-            } else if (binding.pwET.text.length !in 8..12) {
-                Snackbar.make(binding.root, "비밀번호는 8자 ~ 12자로 만들어주세요.", Snackbar.LENGTH_SHORT).show()
-            } else {
-                loginService = ServicePool.authService
-                loginService.signUp(
-                    RequestSignUpDTO(
-                        binding.idEt.text.toString(),
-                        binding.pwET.text.toString(),
-                        binding.etName.text.toString()
-                    )
-                )
-                    .enqueue(object : Callback<ResponseSignUpDTO> {
-                        override fun onResponse(
-                            call: Call<ResponseSignUpDTO>,
-                            response: Response<ResponseSignUpDTO>
-                        ) {
-                            if (response.isSuccessful) {
-                                signUpSuccess()
-                            } else {
-                                signUpBadResponse()
-                            }
-                        }
+        viewModel.signUp(
+            binding.etId.text.toString(),
+            binding.etPw.text.toString(), binding.etName.text.toString()
+        )
 
-                        override fun onFailure(call: Call<ResponseSignUpDTO>, t: Throwable) {
-                            signUpNoResponse()
-                        }
-                    })
-            }
+        viewModel.signUpResult.observe(this) {
+            signUpSuccess()
         }
-    }
 
-    private fun signUpNoResponse() {
-        Toast.makeText(
-            this@SignUpActivity,
-            "네트워크 연결 미약", Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    private fun signUpBadResponse() {
-        Toast.makeText(
-            this@SignUpActivity,
-            "회원가입 실패, 40X 응답값", Toast.LENGTH_SHORT
-        ).show()
+        viewModel.errorMessage.observe(this) {
+            signUpFail(it)
+        }
     }
 
     private fun signUpSuccess() {
@@ -111,8 +86,15 @@ class SignUpActivity : AppCompatActivity() {
         startActivity(intent)
         Toast.makeText(
             this@SignUpActivity,
-            "회원가입 성공, 로그인 하세요!", Toast.LENGTH_SHORT
+            "회원가입 성공, 로그인 해주세요!", Toast.LENGTH_SHORT
         ).show()
         finish()
+    }
+
+    private fun signUpFail(errorCode: Int) {
+        Toast.makeText(
+            this@SignUpActivity,
+            "회원가입 실패, 상태 코드 $errorCode", Toast.LENGTH_SHORT
+        ).show()
     }
 }

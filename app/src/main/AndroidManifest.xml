@@ -18,7 +18,7 @@
             android:name=".presentation.main.view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.signup.SignUpActivity"
+            android:name=".presentation.signup.view.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.login.view.LoginActivity"

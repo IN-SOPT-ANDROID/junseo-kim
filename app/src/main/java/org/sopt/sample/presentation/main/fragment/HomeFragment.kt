@@ -1,4 +1,4 @@
-package org.sopt.sample.fragments
+package org.sopt.sample.presentation.main.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,16 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import org.sopt.sample.data.remote.GetUserService
-import org.sopt.sample.data.remote.ResponseGetUsersDTO
-import org.sopt.sample.data.remote.ServicePool
+import org.sopt.sample.data.remote.model.ResponseGetUserDTO
 import org.sopt.sample.databinding.FragmentHomeBinding
-import org.sopt.sample.fragments.adapters.FollowersAdapter
+import org.sopt.sample.presentation.main.adapter.FollowersAdapter
 import org.sopt.sample.presentation.main.view.MainActivity
 import org.sopt.sample.presentation.main.viewmodel.HomeViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null // 정보 얻어오는 용, Nullable
@@ -25,8 +20,7 @@ class HomeFragment : Fragment() {
         get() = requireNotNull(_binding) { "홈 프래그먼트에서 _binding이 널임" }
     private val viewModel by viewModels<HomeViewModel>()
     private val adapter by lazy { FollowersAdapter(requireContext()) }
-    lateinit var getUserService: GetUserService
-    var userList: List<ResponseGetUsersDTO.User>? = null
+    private var userList: List<ResponseGetUserDTO.User>? = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,33 +40,37 @@ class HomeFragment : Fragment() {
     }
 
     fun initAdapter() {
-        getUserService = ServicePool.getUserService
-        getUserService.getUsers(2).enqueue(object : Callback<ResponseGetUsersDTO> {
-            override fun onResponse(
-                call: Call<ResponseGetUsersDTO>,
-                response: Response<ResponseGetUsersDTO>
-            ) {
-                if (response.isSuccessful) {
-                    userList = response.body()?.data
-                    viewModel.userList = userList!!
-                    binding.rvUsers.layoutManager = GridLayoutManager(context, 3)
-                    binding.rvUsers.adapter = adapter
-                    adapter.setUserList(viewModel.userList)
-                } else {
-                    Toast.makeText(
-                        context,
-                        "데이터를 가져오는데 실패하였습니다.", Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+        viewModel.getUser()
+        viewModel.userList.observe(viewLifecycleOwner) {
+            userList = it.data
+            adapter.setUserList(userList!!)
+            binding.rvUsers.adapter = adapter
+            binding.rvUsers.layoutManager = GridLayoutManager(requireContext(), 3)
+        }
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            showErrorToast(it)
+        }
+    }
 
-            override fun onFailure(call: Call<ResponseGetUsersDTO>, t: Throwable) {
-                Toast.makeText(
-                    context,
-                    "네트워크 연결 미약", Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
+    private fun showErrorToast(errorCode: Int) {
+        if (errorCode in 400..499) {
+            Toast.makeText(
+                context,
+                "상태 코드 : $errorCode, 클라이언트 요청 오류 발생",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (errorCode >= 500) {
+            Toast.makeText(
+                context,
+                "상태 코드 : $errorCode, 서버 응답 오류 발생",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else
+            Toast.makeText(
+                context,
+                "상태 코드 : $errorCode, 오류 발생",
+                Toast.LENGTH_SHORT
+            ).show()
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,9 @@
-package org.sopt.sample.data.remote
+package org.sopt.sample.data.remote.api
 
+import org.sopt.sample.data.remote.model.RequestLoginDTO
+import org.sopt.sample.data.remote.model.RequestSignUpDTO
+import org.sopt.sample.data.remote.model.ResponseLoginDTO
+import org.sopt.sample.data.remote.model.ResponseSignUpDTO
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

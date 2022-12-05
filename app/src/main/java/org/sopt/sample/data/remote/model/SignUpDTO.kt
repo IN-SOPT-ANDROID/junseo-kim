@@ -1,16 +1,26 @@
-package org.sopt.sample.data.remote
+package org.sopt.sample.data.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResponseLoginDTO(
+data class RequestSignUpDTO(
+    @SerialName("email")
+    val email: String,
+    @SerialName("password")
+    val password: String,
+    @SerialName("name")
+    val name: String
+)
+
+@Serializable
+data class ResponseSignUpDTO(
     @SerialName("status")
     val status: Int,
     @SerialName("message")
     val message: String,
-    @SerialName("result")
-    val result: User
+    @SerialName("newUser")
+    val newUser: User
 ) {
     @Serializable
     data class User(
