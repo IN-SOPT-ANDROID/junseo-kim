@@ -5,20 +5,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import coil.load
 import org.sopt.sample.databinding.FragmentGalleryBinding
+import org.sopt.sample.presentation.main.viewmodel.GalleryViewModel
+import org.sopt.sample.util.ContentUriRequestBody
 
 class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding: FragmentGalleryBinding
         get() = requireNotNull(_binding) { "갤러리 프래그먼트에서 _binding이 널임" }
-    private val imageLauncher =
-        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)) {
-            loadImage(it)
-        }
+    private val viewModel by viewModels<GalleryViewModel>()
+    private val imageLoadLauncher = registerForActivityResult(
+        ActivityResultContracts.PickMultipleVisualMedia(3)
+    ) {
+        loadImage(it)
+    }
+    private val imageUploadLauncher = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) {
+        viewModel.setRequestBody(ContentUriRequestBody(requireContext(), it!!))
+    }
 
     private fun loadImage(imageList: List<Uri>) {
         binding.ivSample1.load(imageList[0])
@@ -37,8 +48,41 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.btnLoadImage.setOnClickListener {
-            imageLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            imageLoadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+        }
+
+        binding.btnUploadImage.setOnClickListener {
+            imageUploadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            viewModel.uploadProfileImage()
+            viewModel.result.observe(viewLifecycleOwner) {
+                alertResponse(it)
+            }
+        }
+
+    }
+
+    private fun alertResponse(responseStatusCode: Int) {
+        if (responseStatusCode in 200..299) {
+            Toast.makeText(requireContext(), "사진이 정상적으로 업로드되었습니다.", Toast.LENGTH_SHORT)
+                .show()
+        }
+        if (responseStatusCode in 400..499) {
+            Toast.makeText(
+                requireContext(),
+                "예기치 못한 오류가 발생했습니다. $responseStatusCode",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+        if (responseStatusCode in 500..599) {
+            Toast.makeText(
+                requireContext(),
+                "서버 상태가 원활하지 않습니다. $responseStatusCode",
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
 
