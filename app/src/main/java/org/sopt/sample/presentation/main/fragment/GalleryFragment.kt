@@ -15,7 +15,7 @@ import org.sopt.sample.databinding.FragmentGalleryBinding
 import org.sopt.sample.presentation.main.viewmodel.GalleryViewModel
 import org.sopt.sample.util.ContentUriRequestBody
 
-class GalleryFragment : Fragment() {
+class GalleryFragment(val userId: Int) : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding: FragmentGalleryBinding
         get() = requireNotNull(_binding) { "갤러리 프래그먼트에서 _binding이 널임" }
@@ -55,7 +55,7 @@ class GalleryFragment : Fragment() {
 
         binding.btnUploadImage.setOnClickListener {
             imageUploadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
-            viewModel.uploadProfileImage()
+            viewModel.uploadProfileImage(userId)
             viewModel.result.observe(viewLifecycleOwner) {
                 alertResponse(it)
             }

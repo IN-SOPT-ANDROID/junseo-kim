@@ -10,7 +10,7 @@ import org.sopt.sample.util.ContentUriRequestBody
 import retrofit2.Callback
 import retrofit2.Response
 
-class GalleryViewModel : ViewModel() {
+class GalleryViewModel() : ViewModel() {
     private val service = ServicePool.imageService
     private val _image = MutableLiveData<ContentUriRequestBody>()
     val image: LiveData<ContentUriRequestBody>
@@ -24,11 +24,11 @@ class GalleryViewModel : ViewModel() {
         _image.value = requestBody
     }
 
-    fun uploadProfileImage() {
+    fun uploadProfileImage(userId: Int) {
         if (image.value == null) {
             Log.d(tag, "image is null ....")
         } else {
-            service.uploadImage(0, image.value!!.toFormData())
+            service.uploadImage(userId, image.value!!.toFormData())
                 .enqueue(object : Callback<Unit> {
                     override fun onResponse(call: retrofit2.Call<Unit>, response: Response<Unit>) {
                         if (response.isSuccessful) {

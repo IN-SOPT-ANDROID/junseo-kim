@@ -16,11 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        val userId: Int = intent.getIntExtra(MainActivity.userId, 0)
         firstFragment()
-
         binding.bnvMain.setOnItemSelectedListener { item ->
-            changeFragment(item)
+            changeFragment(item, userId)
         }
     }
 
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeFragment(item: MenuItem): Boolean {
+    private fun changeFragment(item: MenuItem, userId: Int): Boolean {
         when (item.itemId) {
             R.id.item_home -> {
                 supportFragmentManager.beginTransaction()
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.item_gallery -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, GalleryFragment())
+                    .replace(R.id.fragmentContainerView, GalleryFragment(userId))
                     .commit()
                 return true
             }
@@ -67,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         val tag = "tag"
         val id = "id"
         val pw = "pw"
+        val userId = "userId"
         val idPattern = """^(?=.*[0-9])(?=.*[a-zA-Z]).{6,10}$"""
         val pwPattern = """^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[$@$!%*#?&]).{6,12}$"""
     }

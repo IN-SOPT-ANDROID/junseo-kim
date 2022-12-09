@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(binding.etId.text.toString(), binding.etPw.text.toString())
         }
         viewModel.loginResult.observe(this) {
-            loginSuccess()
+            loginSuccess(it.result.id)
         }
         viewModel.errorMessage.observe(this) {
             loginFail(it)
@@ -36,9 +36,10 @@ class LoginActivity : AppCompatActivity() {
         clickSignUpListener()
     }
 
-    fun loginSuccess() {
+    fun loginSuccess(userId: Int) {
         Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("userId", userId)
         startActivity(intent)
     }
 

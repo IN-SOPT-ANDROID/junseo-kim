@@ -12,6 +12,6 @@ interface ImageService {
     @POST("api/user/{userId}/image")
     fun uploadImage(
         @Path("userId") userId: Int,
-        @Part("image") image: MultipartBody.Part
+        @Part image: MultipartBody.Part
     ): Call<Unit>
 }
