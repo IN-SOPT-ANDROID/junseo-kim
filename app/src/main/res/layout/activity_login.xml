@@ -44,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/id_hint_login"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -75,7 +76,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/pw_hint_login"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:inputType="textPassword"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.helper.widget.Flow
