@@ -7,6 +7,7 @@ import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
 import org.sopt.sample.presentation.main.fragment.GalleryFragment
 import org.sopt.sample.presentation.main.fragment.HomeFragment
+import org.sopt.sample.presentation.main.fragment.MusicFragment
 import org.sopt.sample.presentation.main.fragment.SearchFragment
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +50,12 @@ class MainActivity : AppCompatActivity() {
             R.id.item_gallery -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, GalleryFragment())
+                    .commit()
+                return true
+            }
+            R.id.item_music -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView, MusicFragment())
                     .commit()
                 return true
             }
