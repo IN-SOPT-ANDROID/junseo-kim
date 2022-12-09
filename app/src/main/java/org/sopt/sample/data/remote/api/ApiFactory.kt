@@ -21,6 +21,7 @@ object ApiFactory {
         Retrofit.Builder()
             .baseUrl("http://3.39.169.52:3000/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
             .build()
     }
 
@@ -30,6 +31,7 @@ object ApiFactory {
         Retrofit.Builder()
             .baseUrl("https://reqres.in/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
             .build()
     }
 
