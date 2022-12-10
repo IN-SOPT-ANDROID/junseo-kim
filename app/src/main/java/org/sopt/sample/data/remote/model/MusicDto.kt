@@ -23,10 +23,10 @@ data class ResponseGetMusicDto(
     )
 }
 
-@Serializable
-data class ResponseRegisterMusicDto(
-    @SerialName("statusCode") val statusCode: Int,
-    @SerialName("success") val success: Boolean,
-    @SerialName("message") val message: String,
-    @SerialName("data") val data: ResponseGetMusicDto.Music?
-)
+//@Serializable
+//data class ResponseRegisterMusicDto(
+//    @SerialName("statusCode") val statusCode: Int,
+//    @SerialName("success") val success: Boolean,
+//    @SerialName("message") val message: String,
+//    @SerialName("data") val data: ResponseGetMusicDto.Music
+//)
