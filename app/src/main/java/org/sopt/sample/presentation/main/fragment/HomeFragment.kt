@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import org.sopt.sample.data.remote.model.ResponseGetUserDTO
+import org.sopt.sample.data.remote.model.ResponseGetUserDto
 import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.main.adapter.FollowersAdapter
 import org.sopt.sample.presentation.main.view.MainActivity
@@ -20,7 +20,7 @@ class HomeFragment : Fragment() {
         get() = requireNotNull(_binding) { "홈 프래그먼트에서 _binding이 널임" }
     private val viewModel by viewModels<HomeViewModel>()
     private val adapter by lazy { FollowersAdapter(requireContext()) }
-    private var userList: List<ResponseGetUserDTO.User>? = listOf()
+    private var userList: List<ResponseGetUserDto.User>? = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,

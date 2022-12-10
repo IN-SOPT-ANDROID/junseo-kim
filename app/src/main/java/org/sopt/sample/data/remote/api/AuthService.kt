@@ -1,17 +1,17 @@
 package org.sopt.sample.data.remote.api
 
-import org.sopt.sample.data.remote.model.RequestLoginDTO
-import org.sopt.sample.data.remote.model.RequestSignUpDTO
-import org.sopt.sample.data.remote.model.ResponseLoginDTO
-import org.sopt.sample.data.remote.model.ResponseSignUpDTO
+import org.sopt.sample.data.remote.model.RequestLoginDto
+import org.sopt.sample.data.remote.model.RequestSignUpDto
+import org.sopt.sample.data.remote.model.ResponseLoginDto
+import org.sopt.sample.data.remote.model.ResponseSignUpDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthService {
     @POST("api/user/signin")
-    fun login(@Body request: RequestLoginDTO): Call<ResponseLoginDTO>
+    fun login(@Body request: RequestLoginDto): Call<ResponseLoginDto>
 
     @POST("api/user/signup")
-    fun signUp(@Body request: RequestSignUpDTO): Call<ResponseSignUpDTO>
+    fun signUp(@Body request: RequestSignUpDto): Call<ResponseSignUpDto>
 }
