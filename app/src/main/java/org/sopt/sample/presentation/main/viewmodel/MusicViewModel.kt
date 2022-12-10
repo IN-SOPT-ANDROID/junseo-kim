@@ -48,7 +48,7 @@ class MusicViewModel : ViewModel() {
         })
     }
 
-    fun registerMusic(requestBody: ContentUriRequestBody, request: HashMap<String, RequestBody>) {
+    fun registerMusic(requestBody: ContentUriRequestBody, request: RequestBody) {
         musicService.uploadMusic(requestBody.toFormData(), request)
             .enqueue(object : Callback<Unit> {
                 override fun onResponse(

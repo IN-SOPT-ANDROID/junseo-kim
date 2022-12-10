@@ -15,6 +15,6 @@ interface MusicService {
     @POST("music")
     fun uploadMusic(
         @Part image: MultipartBody.Part,
-        @PartMap request: HashMap<String, RequestBody>
+        @Part("request") request: RequestBody
     ): Call<Unit>
 }

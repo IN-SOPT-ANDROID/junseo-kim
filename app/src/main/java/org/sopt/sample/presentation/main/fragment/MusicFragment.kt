@@ -10,6 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.sopt.sample.R
@@ -27,7 +29,7 @@ class MusicFragment : Fragment() {
     private val viewModel by viewModels<MusicViewModel>()
 
     private val singer = "안드_김준서"
-    private val title = "아이폰, 아이패드, 맥북 사용자"
+    private val title = "도배해서 죄송합니다..."
 
     private fun String.toRequestBody() = toRequestBody("application/json".toMediaTypeOrNull())
     private val musicRegisterLauncher = registerForActivityResult(
@@ -36,14 +38,15 @@ class MusicFragment : Fragment() {
         if (it != null) {
             viewModel.registerMusic(
                 ContentUriRequestBody(requireContext(), it),
-                hashMapOf(
-                    "singer" to singer.toRequestBody(),
-                    "title" to title.toRequestBody()
-                )
+                buildJsonObject {
+                    put("singer", singer)
+                    put("title", title)
+                }.toString().toRequestBody()
             )
         }
         adapter.notifyAfterRegisterMusic()
     }
+
 
 
     override fun onCreateView(
