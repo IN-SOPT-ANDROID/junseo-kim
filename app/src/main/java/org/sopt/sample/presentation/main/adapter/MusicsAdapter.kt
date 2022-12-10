@@ -3,8 +3,8 @@ package org.sopt.sample.presentation.main.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import org.sopt.sample.data.remote.model.ResponseGetMusicDto
 import org.sopt.sample.databinding.ItemMusicsBinding
 
@@ -20,7 +20,7 @@ class MusicsAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
     class MusicViewHolder(private val binding: ItemMusicsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ResponseGetMusicDto.Music) {
-            binding.ivMusicProfile.setImageURI(data.image.toUri())
+            binding.ivMusicProfile.load(data.image)
             binding.tvMusicTitle.text = data.title
             binding.tvMusicSinger.text = data.singer
         }
