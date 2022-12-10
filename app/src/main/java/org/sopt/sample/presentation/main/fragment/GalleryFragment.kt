@@ -33,9 +33,24 @@ class GalleryFragment(private val userId: Int) : Fragment() {
     }
 
     private fun loadImage(imageList: List<Uri>) {
-        binding.ivSample1.load(imageList[0])
-        binding.ivSample2.load(imageList[1])
-        binding.ivSample3.load(imageList[2])
+        when (imageList.size) {
+            0 -> {
+                Toast.makeText(requireContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            1 -> {
+                binding.ivSample1.load(imageList[0])
+            }
+            2 -> {
+                binding.ivSample1.load(imageList[0])
+                binding.ivSample2.load(imageList[1])
+            }
+            3 -> {
+                binding.ivSample1.load(imageList[0])
+                binding.ivSample2.load(imageList[1])
+                binding.ivSample3.load(imageList[2])
+            }
+        }
     }
 
     override fun onCreateView(
