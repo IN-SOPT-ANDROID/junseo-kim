@@ -12,23 +12,22 @@ import retrofit2.Response
 
 class GalleryViewModel() : ViewModel() {
     private val service = ServicePool.imageService
-    private val _image = MutableLiveData<ContentUriRequestBody>()
-    val image: LiveData<ContentUriRequestBody>
-        get() = _image
+
+    var image: ContentUriRequestBody? = null
 
     private val _result = MutableLiveData<Int>()
     val result: LiveData<Int>
         get() = _result
 
     fun setRequestBody(requestBody: ContentUriRequestBody) {
-        _image.value = requestBody
+        image = requestBody
     }
 
     fun uploadProfileImage(userId: Int) {
-        if (image.value == null) {
+        if (image == null) {
             Log.d(tag, "image is null ....")
         } else {
-            service.uploadImage(userId, image.value!!.toFormData())
+            service.uploadImage(userId, image!!.toFormData())
                 .enqueue(object : Callback<Unit> {
                     override fun onResponse(call: retrofit2.Call<Unit>, response: Response<Unit>) {
                         if (response.isSuccessful) {
