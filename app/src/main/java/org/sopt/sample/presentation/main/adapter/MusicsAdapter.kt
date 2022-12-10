@@ -39,4 +39,8 @@ class MusicsAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         this.musicList = musicList.toList()
         notifyItemRangeInserted(0, this.musicList.size)
     }
+
+    fun notifyAfterRegisterMusic() {
+        notifyItemInserted(musicList.size + 1)
+    }
 }

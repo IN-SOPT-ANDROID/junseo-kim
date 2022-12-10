@@ -5,14 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.sopt.sample.R
 import org.sopt.sample.databinding.FragmentMusicBinding
 import org.sopt.sample.presentation.main.adapter.MusicsAdapter
 import org.sopt.sample.presentation.main.view.MainActivity
 import org.sopt.sample.presentation.main.viewmodel.MusicViewModel
+import org.sopt.sample.util.ContentUriRequestBody
 
 class MusicFragment : Fragment() {
     private var _binding: FragmentMusicBinding? = null
@@ -20,6 +25,26 @@ class MusicFragment : Fragment() {
         get() = requireNotNull(_binding) { "갤러리 프래그먼트에서 _binding이 널임" }
     private val adapter by lazy { MusicsAdapter(requireContext()) }
     private val viewModel by viewModels<MusicViewModel>()
+
+    private val singer = "안드_김준서"
+    private val title = "아이폰, 아이패드, 맥북 사용자"
+
+    private fun String.toRequestBody() = toRequestBody("application/json".toMediaTypeOrNull())
+    private val musicRegisterLauncher = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) {
+        if (it != null) {
+            viewModel.registerMusic(
+                ContentUriRequestBody(requireContext(), it),
+                hashMapOf(
+                    "singer" to singer.toRequestBody(),
+                    "title" to title.toRequestBody()
+                )
+            )
+        }
+        adapter.notifyAfterRegisterMusic()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,8 +57,8 @@ class MusicFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvMusics.adapter = adapter
-        binding.rvMusics.layoutManager = LinearLayoutManager(requireContext())
+
+        initAdapter()
 
         (activity as MainActivity).binding.bnvMain.setOnItemReselectedListener {
             if (it.itemId == R.id.item_music)
@@ -41,12 +66,54 @@ class MusicFragment : Fragment() {
         }
 
         viewModel.getMusicList()
+        observeMusicList()
+        observeRegisterMusic()
+
+        binding.btnRegisterMusic.setOnClickListener {
+            musicRegisterLauncher.launch(PickVisualMediaRequest())
+        }
+    }
+
+    private fun observeRegisterMusic() {
+        viewModel.registerMusicResult.observe(viewLifecycleOwner) {
+            alertResponse(it)
+        }
+    }
+
+    private fun observeMusicList() {
         viewModel.musicList.observe(viewLifecycleOwner) {
             adapter.setMusicList(it)
         }
-
-        viewModel.result.observe(viewLifecycleOwner) {
+        viewModel.getMusicResult.observe(viewLifecycleOwner) {
             showErrorToast(it)
+        }
+    }
+
+    private fun initAdapter() {
+        binding.rvMusics.adapter = adapter
+        binding.rvMusics.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun alertResponse(responseStatusCode: Int) {
+        if (responseStatusCode in 200..299) {
+            Toast.makeText(requireContext(), "사진이 정상적으로 업로드되었습니다.", Toast.LENGTH_SHORT)
+                .show()
+        }
+        if (responseStatusCode in 400..499) {
+            Toast.makeText(
+                requireContext(),
+                "예기치 못한 오류가 발생했습니다. $responseStatusCode",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+        if (responseStatusCode in 500..599) {
+            Toast.makeText(
+                requireContext(),
+                "서버 상태가 원활하지 않습니다. $responseStatusCode",
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
 

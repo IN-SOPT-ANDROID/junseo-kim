@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import okhttp3.RequestBody
 import org.sopt.sample.data.remote.api.ServicePool
 import org.sopt.sample.data.remote.model.ResponseGetMusicDto
 import org.sopt.sample.presentation.main.view.MainActivity
+import org.sopt.sample.util.ContentUriRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,9 +18,13 @@ class MusicViewModel : ViewModel() {
     val musicList: LiveData<List<ResponseGetMusicDto.Music>>
         get() = _musicList
 
-    private var _result: MutableLiveData<Int> = MutableLiveData()
-    val result: LiveData<Int>
-        get() = _result
+    private var _getMusicResult: MutableLiveData<Int> = MutableLiveData()
+    val getMusicResult: LiveData<Int>
+        get() = _getMusicResult
+
+    private var _registerMusicResult: MutableLiveData<Int> = MutableLiveData()
+    val registerMusicResult: LiveData<Int>
+        get() = _registerMusicResult
 
     private val musicService = ServicePool.musicService
 
@@ -31,7 +37,7 @@ class MusicViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _musicList.value = response.body()?.data!!
                 } else {
-                    _result.value = response.code()
+                    _getMusicResult.value = response.code()
                 }
             }
 
@@ -40,5 +46,25 @@ class MusicViewModel : ViewModel() {
             }
 
         })
+    }
+
+    fun registerMusic(requestBody: ContentUriRequestBody, request: HashMap<String, RequestBody>) {
+        musicService.uploadMusic(requestBody.toFormData(), request)
+            .enqueue(object : Callback<Unit> {
+                override fun onResponse(
+                    call: Call<Unit>,
+                    response: Response<Unit>
+                ) {
+                    if (response.isSuccessful) {
+                        _registerMusicResult.value = response.code()
+                    } else {
+                        _registerMusicResult.value = response.code()
+                    }
+                }
+
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    Log.d(MainActivity.tag, "네트워크 환경이 좋지 않습니다.")
+                }
+            })
     }
 }
