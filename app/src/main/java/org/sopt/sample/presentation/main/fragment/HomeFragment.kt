@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import org.sopt.sample.R
 import org.sopt.sample.data.remote.model.ResponseGetUserDto
 import org.sopt.sample.databinding.FragmentHomeBinding
 import org.sopt.sample.presentation.main.adapter.FollowersAdapter
@@ -35,7 +36,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         (activity as MainActivity).binding.bnvMain.setOnItemReselectedListener {
-            binding.rvUsers.smoothScrollToPosition(0)
+            if (it.itemId == R.id.item_home)
+                binding.rvUsers.smoothScrollToPosition(0)
         }
     }
 
