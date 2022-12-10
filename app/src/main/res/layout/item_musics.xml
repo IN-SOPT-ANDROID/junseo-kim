@@ -21,7 +21,7 @@
             android:id="@+id/iv_music_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:src="@drawable/github"
+            android:src="@drawable/github"
             android:elevation="10dp"
             android:padding="5dp" />
     </androidx.cardview.widget.CardView>
@@ -39,6 +39,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_music_singer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Singer"

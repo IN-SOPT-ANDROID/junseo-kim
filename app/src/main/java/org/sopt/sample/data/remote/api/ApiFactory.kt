@@ -41,7 +41,7 @@ object ApiFactory {
     val retrofitForImageService: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("http://3.39.169.52:3000/")
-            .addConverterFactory(Json.asConverterFactory("multipart/form-data".toMediaType()))
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .client(client)
             .build()
     }
@@ -52,7 +52,7 @@ object ApiFactory {
     val retrofitForMusicService: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("http://3.34.53.11:8080/")
-            .addConverterFactory(Json.asConverterFactory("multipart/form-data".toMediaType()))
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .client(client)
             .build()
     }

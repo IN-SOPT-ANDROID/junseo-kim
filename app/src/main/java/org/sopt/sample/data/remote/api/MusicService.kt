@@ -8,7 +8,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface MusicService {
-    @Multipart
     @GET("music/list")
     fun getMusicList(
     ): Call<ResponseGetMusicDto>
