@@ -42,13 +42,17 @@ class GalleryFragment(private val userId: Int) : Fragment() {
                 binding.ivSample1.load(imageList[0])
             }
             2 -> {
-                binding.ivSample1.load(imageList[0])
-                binding.ivSample2.load(imageList[1])
+                with(binding) {
+                    ivSample1.load(imageList[0])
+                    ivSample2.load(imageList[1])
+                }
             }
             3 -> {
-                binding.ivSample1.load(imageList[0])
-                binding.ivSample2.load(imageList[1])
-                binding.ivSample3.load(imageList[2])
+                with(binding) {
+                    ivSample1.load(imageList[0])
+                    ivSample2.load(imageList[1])
+                    ivSample3.load(imageList[2])
+                }
             }
         }
     }
@@ -65,13 +69,15 @@ class GalleryFragment(private val userId: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnLoadImage.setOnClickListener {
-            imageLoadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+        with(binding) {
+            btnLoadImage.setOnClickListener {
+                imageLoadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            }
+            btnUploadImage.setOnClickListener {
+                imageUploadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            }
         }
 
-        binding.btnUploadImage.setOnClickListener {
-            imageUploadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
-        }
         viewModel.result.observe(viewLifecycleOwner) {
             alertResponse(it)
         }
