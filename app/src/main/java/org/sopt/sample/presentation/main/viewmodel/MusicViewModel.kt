@@ -8,6 +8,7 @@ import okhttp3.RequestBody
 import org.sopt.sample.data.remote.api.ServicePool
 import org.sopt.sample.data.remote.model.ResponseGetMusicDto
 import org.sopt.sample.presentation.main.view.MainActivity
+import org.sopt.sample.presentation.main.view.MainActivity.Companion.tag
 import org.sopt.sample.util.ContentUriRequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,7 +36,11 @@ class MusicViewModel : ViewModel() {
                 response: Response<ResponseGetMusicDto>
             ) {
                 if (response.isSuccessful) {
-                    _musicList.value = response.body()?.data!!
+                    if (response.body()?.data != null)
+                        _musicList.value = response.body()?.data!!
+                    else {
+                        Log.d(tag, "서버에서 보내준 음악 리스트가 null 입니다.")
+                    }
                 } else {
                     _getMusicResult.value = response.code()
                 }
@@ -55,11 +60,7 @@ class MusicViewModel : ViewModel() {
                     call: Call<Unit>,
                     response: Response<Unit>
                 ) {
-                    if (response.isSuccessful) {
-                        _registerMusicResult.value = response.code()
-                    } else {
-                        _registerMusicResult.value = response.code()
-                    }
+                    _registerMusicResult.value = response.code()
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
