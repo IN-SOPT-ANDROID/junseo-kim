@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import okhttp3.RequestBody
 import org.sopt.sample.data.remote.api.ServicePool
 import org.sopt.sample.data.remote.model.ResponseGetMusicDto
-import org.sopt.sample.presentation.main.view.MainActivity
 import org.sopt.sample.presentation.main.view.MainActivity.Companion.tag
 import org.sopt.sample.util.ContentUriRequestBody
 import retrofit2.Call
@@ -47,7 +46,7 @@ class MusicViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<ResponseGetMusicDto>, t: Throwable) {
-                Log.d(MainActivity.tag, "네트워크 환경이 좋지 않습니다.")
+                Log.d(tag, "네트워크 환경이 좋지 않습니다.")
             }
 
         })
@@ -64,7 +63,7 @@ class MusicViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    Log.d(MainActivity.tag, "네트워크 환경이 좋지 않습니다.")
+                    Log.d(tag, "네트워크 환경이 좋지 않습니다.")
                 }
             })
     }
