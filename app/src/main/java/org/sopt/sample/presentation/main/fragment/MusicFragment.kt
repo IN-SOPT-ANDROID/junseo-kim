@@ -28,8 +28,8 @@ class MusicFragment : Fragment() {
     private val adapter by lazy { MusicsAdapter(requireContext()) }
     private val viewModel by viewModels<MusicViewModel>()
 
-    private val singer = "안드_김준서"
-    private val title = "도배해서 죄송합니다..."
+    private val singer = "안드로이드"
+    private val title = "다음 팟장은 누구일까"
 
     private fun String.toRequestBody() = toRequestBody("application/json".toMediaTypeOrNull())
     private val musicRegisterLauncher = registerForActivityResult(
@@ -44,7 +44,6 @@ class MusicFragment : Fragment() {
                 }.toString().toRequestBody()
             )
         }
-        adapter.notifyAfterRegisterMusic()
     }
 
 
@@ -70,16 +69,17 @@ class MusicFragment : Fragment() {
 
         viewModel.getMusicList()
         observeMusicList()
-        observeRegisterMusic()
+        observeRegisterMusicResult()
 
         binding.btnRegisterMusic.setOnClickListener {
             musicRegisterLauncher.launch(PickVisualMediaRequest())
         }
     }
 
-    private fun observeRegisterMusic() {
+    private fun observeRegisterMusicResult() {
         viewModel.registerMusicResult.observe(viewLifecycleOwner) {
             alertResponse(it)
+            viewModel.getMusicList()
         }
     }
 
@@ -115,8 +115,7 @@ class MusicFragment : Fragment() {
                 requireContext(),
                 "서버 상태가 원활하지 않습니다. $responseStatusCode",
                 Toast.LENGTH_SHORT
-            )
-                .show()
+            ).show()
         }
     }
 
