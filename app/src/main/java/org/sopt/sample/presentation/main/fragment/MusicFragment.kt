@@ -23,7 +23,7 @@ import org.sopt.sample.util.ContentUriRequestBody
 
 class MusicFragment : Fragment() {
     private var _binding: FragmentMusicBinding? = null
-    val binding: FragmentMusicBinding
+    private val binding: FragmentMusicBinding
         get() = requireNotNull(_binding) { "갤러리 프래그먼트에서 _binding이 널임" }
     private val adapter by lazy { MusicsAdapter(requireContext()) }
     private val viewModel by viewModels<MusicViewModel>()
@@ -37,8 +37,7 @@ class MusicFragment : Fragment() {
     ) {
         if (it != null) {
             viewModel.registerMusic(
-                ContentUriRequestBody(requireContext(), it),
-                buildJsonObject {
+                ContentUriRequestBody(requireContext(), it), buildJsonObject {
                     put("singer", singer)
                     put("title", title)
                 }.toString().toRequestBody()
@@ -47,12 +46,9 @@ class MusicFragment : Fragment() {
     }
 
 
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentMusicBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -62,14 +58,13 @@ class MusicFragment : Fragment() {
 
         initAdapter()
 
-        (activity as MainActivity).binding.bnvMain.setOnItemReselectedListener {
-            if (it.itemId == R.id.item_music)
-                binding.rvMusics.smoothScrollToPosition(0)
-        }
-
         viewModel.getMusicList()
         observeMusicList()
         observeRegisterMusicResult()
+
+        (activity as MainActivity).bottomNavigationReselectedListener(
+            smoothScrollToTop, R.id.item_music
+        )
 
         binding.btnRegisterMusic.setOnClickListener {
             musicRegisterLauncher.launch(PickVisualMediaRequest())
@@ -99,22 +94,18 @@ class MusicFragment : Fragment() {
 
     private fun alertResponse(responseStatusCode: Int) {
         if (responseStatusCode in 200..299) {
-            Toast.makeText(requireContext(), "사진이 정상적으로 업로드되었습니다.", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(
+                requireContext(), "사진이 정상적으로 업로드되었습니다.", Toast.LENGTH_SHORT
+            ).show()
         }
         if (responseStatusCode in 400..499) {
             Toast.makeText(
-                requireContext(),
-                "예기치 못한 오류가 발생했습니다. $responseStatusCode",
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                requireContext(), "예기치 못한 오류가 발생했습니다. $responseStatusCode", Toast.LENGTH_SHORT
+            ).show()
         }
         if (responseStatusCode in 500..599) {
             Toast.makeText(
-                requireContext(),
-                "서버 상태가 원활하지 않습니다. $responseStatusCode",
-                Toast.LENGTH_SHORT
+                requireContext(), "서버 상태가 원활하지 않습니다. $responseStatusCode", Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -122,26 +113,23 @@ class MusicFragment : Fragment() {
     private fun showErrorToast(errorCode: Int) {
         if (errorCode in 400..499) {
             Toast.makeText(
-                context,
-                "상태 코드 : $errorCode, 클라이언트 요청 오류 발생",
-                Toast.LENGTH_SHORT
+                context, "상태 코드 : $errorCode, 클라이언트 요청 오류 발생", Toast.LENGTH_SHORT
             ).show()
         } else if (errorCode >= 500) {
             Toast.makeText(
-                context,
-                "상태 코드 : $errorCode, 서버 응답 오류 발생",
-                Toast.LENGTH_SHORT
+                context, "상태 코드 : $errorCode, 서버 응답 오류 발생", Toast.LENGTH_SHORT
             ).show()
-        } else
-            Toast.makeText(
-                context,
-                "상태 코드 : $errorCode, 오류 발생",
-                Toast.LENGTH_SHORT
-            ).show()
+        } else Toast.makeText(
+            context, "상태 코드 : $errorCode, 오류 발생", Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    val smoothScrollToTop: () -> Unit = {
+        binding.rvMusics.smoothScrollToPosition(0)
     }
 }

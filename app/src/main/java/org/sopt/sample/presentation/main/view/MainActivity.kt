@@ -24,11 +24,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun firstFragment() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainerView, HomeFragment())
-                .commit()
+                .add(R.id.fragment_container_view, HomeFragment()).commit()
         }
     }
 
@@ -36,30 +35,35 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.item_home -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, HomeFragment())
-                    .commit()
+                    .replace(R.id.fragment_container_view, HomeFragment()).commit()
                 return true
             }
             R.id.item_search -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, SearchFragment())
-                    .commit()
+                    .replace(R.id.fragment_container_view, SearchFragment()).commit()
                 return true
             }
             R.id.item_gallery -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, GalleryFragment(userId))
-                    .commit()
+                    .replace(R.id.fragment_container_view, GalleryFragment(userId)).commit()
                 return true
             }
             R.id.item_music -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainerView, MusicFragment())
-                    .commit()
+                    .replace(R.id.fragment_container_view, MusicFragment()).commit()
                 return true
             }
             else -> return false
         }
+    }
+
+    fun bottomNavigationReselectedListener(func: () -> Unit, itemId: Int) {
+        binding.bnvMain.setOnItemReselectedListener {
+            when (it.itemId) {
+                itemId -> func()
+            }
+        }
+
     }
 
     companion object {
