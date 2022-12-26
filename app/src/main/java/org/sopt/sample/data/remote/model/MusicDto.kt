@@ -12,21 +12,9 @@ data class ResponseGetMusicDto(
 ) {
     @Serializable
     data class Music(
-        @SerialName("id")
-        val id: Int,
-        @SerialName("image")
-        val image: String,
-        @SerialName("title")
-        val title: String,
-        @SerialName("singer")
-        val singer: String
+        @SerialName("id") val id: Int,
+        @SerialName("image") val image: String,
+        @SerialName("title") val title: String,
+        @SerialName("singer") val singer: String
     )
 }
-
-//@Serializable
-//data class ResponseRegisterMusicDto(
-//    @SerialName("statusCode") val statusCode: Int,
-//    @SerialName("success") val success: Boolean,
-//    @SerialName("message") val message: String,
-//    @SerialName("data") val data: ResponseGetMusicDto.Music
-//)
