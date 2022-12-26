@@ -69,6 +69,11 @@ class GalleryFragment(private val userId: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btnClickEvent()
+        observeUploadProfileImageResult()
+    }
+
+    private fun btnClickEvent() {
         with(binding) {
             btnLoadImage.setOnClickListener {
                 imageLoadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
@@ -77,11 +82,12 @@ class GalleryFragment(private val userId: Int) : Fragment() {
                 imageUploadLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
             }
         }
+    }
 
+    private fun observeUploadProfileImageResult() {
         viewModel.result.observe(viewLifecycleOwner) {
             alertResponse(it)
         }
-
     }
 
     private fun alertResponse(responseStatusCode: Int) {
