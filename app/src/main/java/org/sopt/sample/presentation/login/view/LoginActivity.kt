@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
     fun loginSuccess(userId: Int) {
         Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("userId", userId)
+        intent.putExtra(MainActivity.userId, userId)
         startActivity(intent)
     }
 
