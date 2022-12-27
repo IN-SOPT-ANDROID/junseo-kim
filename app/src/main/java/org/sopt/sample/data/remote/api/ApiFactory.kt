@@ -17,27 +17,53 @@ object ApiFactory {
             ).build()
     }
 
-    val retrofitForAuthService by lazy {
+    val retrofitForAuthService: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("http://3.39.169.52:3000/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
             .build()
     }
 
-    inline fun <reified T> create(): T = retrofitForAuthService.create<T>(T::class.java)
+    inline fun <reified T> createAuthService(): T = retrofitForAuthService.create<T>(T::class.java)
 
-    val retrofitForGetUserService by lazy {
+    val retrofitForGetUserService: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("https://reqres.in/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
             .build()
     }
 
     inline fun <reified T> createGetUserService(): T =
         retrofitForGetUserService.create<T>(T::class.java)
+
+    val retrofitForImageService: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("http://3.39.169.52:3000/")
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
+            .build()
+    }
+
+    inline fun <reified T> createImageService(): T =
+        retrofitForImageService.create<T>(T::class.java)
+
+    val retrofitForMusicService: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("http://3.34.53.11:8080/")
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .client(client)
+            .build()
+    }
+
+    inline fun <reified T> createMusicService(): T =
+        retrofitForMusicService.create<T>(T::class.java)
 }
 
 object ServicePool {
-    val authService = ApiFactory.create<AuthService>()
+    val authService = ApiFactory.createAuthService<AuthService>()
     val getUserService = ApiFactory.createGetUserService<GetUserService>()
+    val imageService = ApiFactory.createImageService<ImageService>()
+    val musicService = ApiFactory.createMusicService<MusicService>()
 }

@@ -6,14 +6,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.main.fragment.SearchFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="갤러리 프래그먼트 입니다."
-        android:textSize="30sp"
+        app:constraint_referenced_ids="iv_sample1,iv_sample2,iv_sample3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_marginTop="120dp" />
+
+    <ImageView
+        android:id="@+id/iv_sample1"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        tools:src="@mipmap/ic_launcher_round" />
+
+    <ImageView
+        android:id="@+id/iv_sample2"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        tools:src="@mipmap/ic_launcher_round" />
+
+    <ImageView
+        android:id="@+id/iv_sample3"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        tools:src="@mipmap/ic_launcher_round" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_load_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blue_600"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이미지 3개 갤러리에서 불러오기"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_upload_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blue_600"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_load_image"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이미지 서버에 업로드하기"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

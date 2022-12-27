@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'org.sopt.sample'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "org.sopt.sample"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -48,12 +48,19 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.fragment:fragment-ktx:1.5.3"
-    implementation "androidx.activity:activity-ktx:1.5.0"
+    implementation "androidx.activity:activity-ktx:1.6.1"
+    // 레트로핏2 - HTTP 통신
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // 직렬화 라이브러리
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+    // OkHTTP
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    // Glide - 이미지를 불러오기
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    // Coil - 이미지 가져오는 라이브러리
+    implementation 'io.coil-kt:coil:2.2.2'
 }

@@ -21,16 +21,15 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
-        binding.vm = viewModel
-        binding.lifecycleOwner = this
+        with(binding) {
+            vm = viewModel
+            lifecycleOwner = this@SignUpActivity
+            btnSignUp.setOnClickListener { signUp() }
+        }
 
         observeId()
         observePw()
         observeName()
-
-        binding.btnSignUp.setOnClickListener {
-            signUp()
-        }
     }
 
     private fun observeId() {
