@@ -12,10 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.load
 import org.sopt.sample.databinding.FragmentGalleryBinding
+import org.sopt.sample.presentation.main.view.MainActivity
 import org.sopt.sample.presentation.main.viewmodel.GalleryViewModel
 import org.sopt.sample.util.ContentUriRequestBody
 
-class GalleryFragment(private val userId: Int) : Fragment() {
+class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding: FragmentGalleryBinding
         get() = requireNotNull(_binding) { "갤러리 프래그먼트에서 _binding이 널임" }
@@ -29,7 +30,7 @@ class GalleryFragment(private val userId: Int) : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ) {
         viewModel.setRequestBody(ContentUriRequestBody(requireContext(), it!!))
-        viewModel.uploadProfileImage(userId)
+        (activity as MainActivity).userId?.let { userId -> viewModel.uploadProfileImage(userId) }
     }
 
     private fun loadImage(imageList: List<Uri>) {

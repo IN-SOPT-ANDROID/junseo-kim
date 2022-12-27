@@ -1,7 +1,6 @@
 package org.sopt.sample.presentation.main.view
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.sample.R
 import org.sopt.sample.databinding.ActivityMainBinding
@@ -12,18 +11,17 @@ import org.sopt.sample.presentation.main.fragment.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    var userId: Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val userId: Int = intent.getIntExtra(MainActivity.userId, 0)
-        firstFragment()
-        binding.bnvMain.setOnItemSelectedListener { item ->
-            changeFragment(item, userId)
-        }
+        setFirstFragment()
+        setBottomNavigationSelectedEvent()
+        userId = intent.getIntExtra(MainActivity.userId, 0)
     }
 
-    private fun firstFragment() {
+    private fun setFirstFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment == null) {
             supportFragmentManager.beginTransaction()
@@ -31,29 +29,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeFragment(item: MenuItem, userId: Int): Boolean {
-        when (item.itemId) {
-            R.id.item_home -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, HomeFragment()).commit()
-                return true
+    private fun setBottomNavigationSelectedEvent() {
+        binding.bnvMain.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.item_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container_view, HomeFragment()).commit()
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.item_search -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container_view, SearchFragment()).commit()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.item_gallery -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container_view, GalleryFragment()).commit()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.item_music -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container_view, MusicFragment()).commit()
+                    return@setOnItemSelectedListener true
+                }
+                else -> return@setOnItemSelectedListener false
             }
-            R.id.item_search -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, SearchFragment()).commit()
-                return true
-            }
-            R.id.item_gallery -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, GalleryFragment(userId)).commit()
-                return true
-            }
-            R.id.item_music -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, MusicFragment()).commit()
-                return true
-            }
-            else -> return false
         }
     }
 
